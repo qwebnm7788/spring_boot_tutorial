@@ -39,14 +39,14 @@ public class UserController {
 		}
 		
 		System.out.println("Login Success");
-		session.setAttribute("user", user);
+		session.setAttribute("sessionedUser", user);
 		
 		return "redirect:/";
 	}
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute("user");
+		session.removeAttribute("sessionedUser");
 		return "redirect:/";
 	}
 	
@@ -69,15 +69,35 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}/form")
-	public String updateForm(@PathVariable Long id, Model model) {
+	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+		Object tempUser  = session.getAttribute("sessionedUser");
+		if(tempUser == null) {
+			return "redirect:/users/loginForm";
+		}
+		
+		User sessionUser = (User) tempUser;
+		if(!id.equals(sessionUser.getId())) {
+			throw new IllegalStateException("You can't update other users!");
+		}
+		
 		model.addAttribute("user", userRepository.getOne(id));
 		return "/user/updateForm";
 	}
 	
 	@PutMapping("/{id}")
-	public String update(@PathVariable Long id, User newUser) {
+	public String update(@PathVariable Long id, User updatedUser, HttpSession session) {
+		Object tempUser  = session.getAttribute("sessionedUser");
+		if(tempUser == null) {
+			return "redirect:/users/loginForm";
+		}
+		
+		User sessionUser = (User) tempUser;
+		if(!id.equals(sessionUser.getId())) {
+			throw new IllegalStateException("You can't update other users!");
+		}
+		
 		User user = userRepository.getOne(id);
-		user.update(newUser);
+		user.update(updatedUser);
 		userRepository.save(user);
 		return "redirect:/users";
 	}
