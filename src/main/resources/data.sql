@@ -1,2 +1,5 @@
-INSERT INTO USER (USER_ID, PASSWORD, NAME, EMAIL) VALUES ('qwebnm7788', 'jaewon', '재원', 'qwebnm7788@naver.com');
-INSERT INTO USER (USER_ID, PASSWORD, NAME, EMAIL) VALUES ('qwas200', 'jungwan', '중완', 'qwas200@naver.com')
+INSERT INTO USER (ID, USER_ID, PASSWORD, NAME, EMAIL) VALUES (1, 'qwebnm7788', 'jaewon', '재원', 'qwebnm7788@naver.com');
+INSERT INTO USER (ID, USER_ID, PASSWORD, NAME, EMAIL) VALUES (2, 'qwas200', 'jungwan', '중완', 'qwas200@naver.com');
+
+INSERT INTO QUESTION (ID, WRITER_ID, TITLE, CONTENTS, CREATE_DATE) VALUES (1, 1, '테스트용 글', '테스트용 내용', CURRENT_TIMESTAMP());
+INSERT INTO QUESTION (ID, WRITER_ID, TITLE, CONTENTS, CREATE_DATE) VALUES (2, 2, '중완이가 쓴 글', '으하하하', CURRENT_TIMESTAMP());
